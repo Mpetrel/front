@@ -19,9 +19,6 @@
           </el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        <br>
-        <card-list :data="searchData"></card-list>
-
       </div>
     </el-main>
   </el-container>
