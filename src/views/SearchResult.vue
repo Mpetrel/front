@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       activeIndex: '0',
-      imgUrl: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png',
+      imgUrl: '/static/img/logo.png',
       keyword: '',
       rate: 3,
       searchData: {},
