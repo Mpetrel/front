@@ -6,6 +6,7 @@ import SearchResult from '@/views/SearchResult'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -15,7 +16,13 @@ export default new Router({
     {
       path: '/search',
       name: 'SearchResult',
-      component: SearchResult
+      component: SearchResult,
+      children: [
+        {
+          path: ':keyword',
+          component: SearchResult
+        }
+      ]
     }
   ]
 })

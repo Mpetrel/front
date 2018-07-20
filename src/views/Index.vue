@@ -1,31 +1,33 @@
 <template>
   <el-container>
     <el-main>
-      <div class="search-form">
-        <el-row :gutter="20">
-          <el-col :span="6">&nbsp;</el-col>
-          <el-col :span="8" v-loading="loading">'
-            <div align="center"><img v-bind:src="imgUrl"/></div>
-          </el-col>
-          <el-col :span="4"></el-col>
-          <el-col :span="6"></el-col>
-        </el-row>
-        <br>
-        <el-row :gutter="20">
-          <el-col :span="6">&nbsp;</el-col>
-          <el-col :span="8"><el-input v-model="input" placeholder="请输入内容"></el-input></el-col>
-          <el-col :span="4">
-            <el-button type="primary" v-on:click="search" size="medium" icon="el-icon-search" :loading="searchLoading">Search</el-button>
-          </el-col>
-          <el-col :span="6"></el-col>
-        </el-row>
-      </div>
+      <transition name="fade">
+        <div class="search-form" v-show="showMainContent">
+          <el-row :gutter="20">
+            <el-col :span="5">&nbsp;</el-col>
+            <el-col :span="10" v-loading="loading">'
+              <div align="center"><img v-bind:src="imgUrl" id="logoImg"/></div>
+            </el-col>
+            <el-col :span="4"></el-col>
+            <el-col :span="5"></el-col>
+          </el-row>
+          <br>
+          <el-row :gutter="20">
+            <el-col :span="5">&nbsp;</el-col>
+            <el-col :span="10"><el-input v-model="input" placeholder="请输入内容"></el-input></el-col>
+            <el-col :span="4">
+              <el-button type="primary" v-on:click="search" size="medium" icon="el-icon-search" :loading="searchLoading">Search</el-button>
+            </el-col>
+            <el-col :span="5"></el-col>
+          </el-row>
+        </div>
+      </transition>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import {search} from '@/api/index'
+// import {search} from '@/api/index'
 import CardList from '@/components/list/CardList'
 export default {
   name: 'Index',
@@ -36,7 +38,8 @@ export default {
       loading: true,
       searchLoading: false,
       imgUrl: '/static/img/logo.png',
-      searchData: []
+      searchData: [],
+      showMainContent: true
     }
   },
   mounted () {
@@ -52,15 +55,16 @@ export default {
       console.log(e)
     },
     search () {
+      if (!this.input) {
+        return
+      }
       this.searchLoading = true
-      let that = this
-      search(this.input, 1).then(res => {
-        that.searchData = res.data.list
-        that.searchLoading = false
-      }, err => {
-        console.log(err)
-        that.searchLoading = false
-      })
+      this.showMainContent = false
+      setTimeout(() => {
+        this.$router.push({
+          path: '/search/' + this.input
+        })
+      }, 600)
     }
   }
 }
@@ -69,5 +73,15 @@ export default {
 <style scoped>
   .search-form {
     margin: 150px;
+  }
+  .fade-leave-active {
+    transition-duration: 0.7s;
+    transform: translate(-500px,-350px);
+  }
+  .fade-leave-to {
+    opacity: 0.3;
+  }
+  #logoImg {
+    cursor: pointer;
   }
 </style>

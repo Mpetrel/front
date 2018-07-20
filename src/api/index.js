@@ -11,3 +11,9 @@ export function search (keyword, sortType, page) {
     }
   })
 }
+export function detail (hash) {
+  return request({
+    url: '/api/search/magnet/' + hash,
+    method: 'get'
+  })
+}
